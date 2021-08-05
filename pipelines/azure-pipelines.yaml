@@ -36,7 +36,7 @@ stages:
                 az --version
                 az account list -o table
                 az account show
-              useGlobalConfig: true
+              addSpnToEnvironment: true
 
           # Init
           - task: Bash@3
@@ -75,6 +75,9 @@ stages:
               targetType: 'inline'
               workingDirectory: '$(System.DefaultWorkingDirectory)/networking'
               script: |
+                export ARM_CLIENT_ID="$(servicePrincipalId)"
+                export ARM_CLIENT_SECRET="$(servicePrincipalKey)"
+                export ARM_TENANT_ID="$(tenantId)"
                 terraform plan -out main.tfplan
       
           - task: Bash@3
