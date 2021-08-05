@@ -26,16 +26,28 @@ stages:
             inputs:
               terraformVersion: '1.0.3'
       
+          # Login
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: 'conyaem-nprd(172f7750-929c-4214-99fb-e1e8d9e582f2)'
+              scriptType: 'bash'
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                az --version
+                az account list -o table
+                az account show
+              useGlobalConfig: true
+
           # Init
-          - task: TerraformTaskV2@2
+          - task: Bash@3
             displayName: Initialize Terraform
             env:
               ARM_SAS_TOKEN: $(sas_token)
             inputs:
-              command: 'init'
+              targetType: 'inline'
               workingDirectory: '$(System.DefaultWorkingDirectory)/networking'
-              commandOptions: '-backend-config=storage_account_name=$(storage_account_name) -backend-config=container_name="terraform-state" -backend-config=key="terraform.tfstate"'
-              provider: 'azurerm'
+              script: |
+                terraform init -backend-config=storage_account_name=$(storage_account_name) -backend-config=container_name="terraform-state" -backend-config=key="terraform.tfstate"
       
           # Check for workspace
           - task: Bash@3
@@ -45,7 +57,7 @@ stages:
               filePath: '$(System.DefaultWorkingDirectory)/networking/workspacetest.sh'
               arguments: '$(Environment.Name)'
       
-          - task: TerraformTaskV2@2
+          - task: Bash@3
             displayName: Plan Terraform Deployment
             env:
               TF_WORKSPACE: '$(Environment.Name)'
@@ -59,26 +71,15 @@ stages:
               TF_VAR_sec_resource_group: $(sec_resource_group)
               TF_VAR_sec_principal_id: $(sec_principal_id)
             inputs:
-              command: 'plan'
-              commandOptions: '-out main.tfplan'
+              targetType: 'inline'
               workingDirectory: '$(System.DefaultWorkingDirectory)/networking'
-              environmentServiceName: 'Networking_Sub'
+              script: |
+                terraform plan -out main.tfplan
       
-          - task: TerraformTaskV2@2
+          - task: Bash@3
             displayName: Apply Terraform Deployment
-            env:
-              TF_WORKSPACE: '$(Environment.Name)'
-              TF_VAR_sec_client_secret: $(sec_client_secret)
-              ARM_SAS_TOKEN: $(sas_token)
-              TF_VAR_sec_sub_id: $(sec_sub_id)
-              TF_VAR_sec_client_id: $(sec_client_id)
-              TF_VAR_sec_tenant_id: $(sec_tenant_id)
-              TF_VAR_sec_vnet_name: $(sec_vnet_name)
-              TF_VAR_sec_vnet_id: $(sec_vnet_id)
-              TF_VAR_sec_resource_group: $(sec_resource_group)
-              TF_VAR_sec_principal_id: $(sec_principal_id)
             inputs:
-              command: 'apply'
+              targetType: 'inline'
               workingDirectory: '$(System.DefaultWorkingDirectory)/networking'
-              commandOptions: 'main.tfplan'
-              environmentServiceName: 'Networking_Sub'
+              script: |
+                terraform apply main.tfplan
