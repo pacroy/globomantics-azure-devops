@@ -5,7 +5,7 @@ variables:
 
 parameters:
 - name: 'isDestroy'
-  displayName: 'Destroy operation'
+  displayName: 'Destroy operation?'
   type: boolean
   default: false
 
@@ -69,13 +69,14 @@ stages:
               TF_VAR_sec_resource_group: $(sec_resource_group)
               TF_VAR_sec_principal_id: $(sec_principal_id)
               TF_VAR_resource_group_name: $(resource_group_name)
-              ${{ if eq(parameters.isDestroy, true) }}:
-                DESTROY: "-destroy"
             inputs:
               provider: 'azurerm'
               command: 'plan'
               workingDirectory: '$(System.DefaultWorkingDirectory)/networking'
-              commandOptions: '-out main.tfplan $DESTROY'
+              ${{ if eq(parameters.isDestroy, true) }}:
+                commandOptions: '-out main.tfplan -destroy'
+              ${{ if ne(parameters.isDestroy, true) }}:
+                commandOptions: '-out main.tfplan'
               environmentServiceNameAzureRM: 'conyaem-nprd(172f7750-929c-4214-99fb-e1e8d9e582f2)'
       
           - task: TerraformTaskV2@2
@@ -143,13 +144,14 @@ stages:
               TF_VAR_sec_resource_group: $(sec_resource_group)
               TF_VAR_sec_principal_id: $(sec_principal_id)
               TF_VAR_resource_group_name: $(resource_group_name)
-              ${{ if eq(parameters.isDestroy, true) }}:
-                DESTROY: "-destroy"
             inputs:
               provider: 'azurerm'
               command: 'plan'
               workingDirectory: '$(System.DefaultWorkingDirectory)/networking'
-              commandOptions: '-out main.tfplan $DESTROY'
+              ${{ if eq(parameters.isDestroy, true) }}:
+                commandOptions: '-out main.tfplan -destroy'
+              ${{ if ne(parameters.isDestroy, true) }}:
+                commandOptions: '-out main.tfplan'
               environmentServiceNameAzureRM: 'conyaem-nprd(172f7750-929c-4214-99fb-e1e8d9e582f2)'
       
           - task: TerraformTaskV2@2
@@ -217,13 +219,14 @@ stages:
               TF_VAR_sec_resource_group: $(sec_resource_group)
               TF_VAR_sec_principal_id: $(sec_principal_id)
               TF_VAR_resource_group_name: $(resource_group_name)
-              ${{ if eq(parameters.isDestroy, true) }}:
-                DESTROY: "-destroy"
             inputs:
               provider: 'azurerm'
               command: 'plan'
               workingDirectory: '$(System.DefaultWorkingDirectory)/networking'
-              commandOptions: '-out main.tfplan $DESTROY'
+              ${{ if eq(parameters.isDestroy, true) }}:
+                commandOptions: '-out main.tfplan -destroy'
+              ${{ if ne(parameters.isDestroy, true) }}:
+                commandOptions: '-out main.tfplan'
               environmentServiceNameAzureRM: 'conyaem-nprd(172f7750-929c-4214-99fb-e1e8d9e582f2)'
       
           - task: TerraformTaskV2@2
