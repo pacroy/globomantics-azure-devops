@@ -121,7 +121,7 @@ stages:
               filePath: '$(System.DefaultWorkingDirectory)/networking/workspacetest.sh'
               arguments: '$(Environment.Name)'
       
-          - task: TerraformCLI@0
+          - task: TerraformTaskV2@2
             displayName: Plan Terraform Deployment
             env:
               TF_WORKSPACE: '$(Environment.Name)'
@@ -142,7 +142,7 @@ stages:
               commandOptions: '-out main.tfplan'
               environmentServiceNameAzureRM: 'conyaem-nprd(172f7750-929c-4214-99fb-e1e8d9e582f2)'
       
-          - task: TerraformCLI@0
+          - task: TerraformTaskV2@2
             displayName: Apply Terraform Deployment
             env:
               TF_WORKSPACE: '$(Environment.Name)'
