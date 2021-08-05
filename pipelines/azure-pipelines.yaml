@@ -14,7 +14,10 @@ trigger:
   branches:
     include:
     - main
-
+  paths:
+    exclude:
+    - README.md
+    
 stages:
 - stage: development
   displayName: development
