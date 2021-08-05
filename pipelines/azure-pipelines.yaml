@@ -24,7 +24,7 @@ stages:
           - task: TerraformInstaller@0
             displayName: Install Terraform
             inputs:
-              terraformVersion: 'latest'
+              terraformVersion: '1.0.*'
       
           # Init
           - task: TerraformTaskV2@2
