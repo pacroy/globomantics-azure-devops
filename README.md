@@ -24,6 +24,8 @@ This is the repository for the exercise in module 5 - "Using Azure DevOps" of th
 | sec_vnet_id | Virtual network resource ID created from module 3 exercise `3-vnet-peering` e.g. `/subscriptions/xxxxxxxx-xxxx-xxxx-xxxxx-xxxxxxxxxxxx/resourceGroups/security/providers/Microsoft.Network/virtualNetworks/security` |
 | sec_vnet_name | Virtual network name created from module 3 exercise `3-vnet-peering` |
 
+4. Create service connection and grant additional `User Access Administrator` role. Update service connection name in the YAML accordingly.
+
 ## Troubleshooting
 
 ### AuthorizationFailed
