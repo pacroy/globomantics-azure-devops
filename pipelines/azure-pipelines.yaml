@@ -47,7 +47,7 @@ stages:
               workingDirectory: '$(System.DefaultWorkingDirectory)/networking'
               backendServiceArm: 'conyaem-nprd(172f7750-929c-4214-99fb-e1e8d9e582f2)'
               backendAzureRmResourceGroupName: 'itma-state'
-              backendAzureRmStorageAccountName: 'itma48197'
+              backendAzureRmStorageAccountName: $(storage_account_name)
               backendAzureRmContainerName: 'terraform-state'
               backendAzureRmKey: 'terraform.tfstate'
       
@@ -122,7 +122,7 @@ stages:
               workingDirectory: '$(System.DefaultWorkingDirectory)/networking'
               backendServiceArm: 'conyaem-nprd(172f7750-929c-4214-99fb-e1e8d9e582f2)'
               backendAzureRmResourceGroupName: 'itma-state'
-              backendAzureRmStorageAccountName: 'itma48197'
+              backendAzureRmStorageAccountName: $(storage_account_name)
               backendAzureRmContainerName: 'terraform-state'
               backendAzureRmKey: 'terraform.tfstate'
       
@@ -197,7 +197,7 @@ stages:
               workingDirectory: '$(System.DefaultWorkingDirectory)/networking'
               backendServiceArm: 'conyaem-nprd(172f7750-929c-4214-99fb-e1e8d9e582f2)'
               backendAzureRmResourceGroupName: 'itma-state'
-              backendAzureRmStorageAccountName: 'itma48197'
+              backendAzureRmStorageAccountName: $(storage_account_name)
               backendAzureRmContainerName: 'terraform-state'
               backendAzureRmKey: 'terraform.tfstate'
       
